@@ -152,6 +152,8 @@ T15
 
 ### T3: Define Lucre domain types
 
+**Status**: ✅ Done
+
 **What**: Domain types and constants in `src/lib/lucre/types.ts`: `FixedCostCategory` (14 categories), `FIXED_COST_CATEGORIES`, `ClinicParams`, `FixedCosts`, `ProcedureInput`, `ProcedureResult`, `MarginStatus`, `LucreOutput`, `ValidationError`, `LucreRunResult`.
 **Where**: `src/lib/lucre/types.ts`
 **Depends on**: T1
