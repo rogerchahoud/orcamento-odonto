@@ -231,6 +231,8 @@ T15
 
 ### T6: Implement pt-BR formatters
 
+**Status**: ✅ Done
+
 **What**: `src/lib/format.ts` - `formatBRL(value)` → `R$ 1.234,56`, `formatPercent(value)` → `30,0%`, `parseNumberInput(raw)` accepting `,` or `.` decimal and returning `null` for invalid.
 **Where**: `src/lib/format.ts`
 **Depends on**: T3
