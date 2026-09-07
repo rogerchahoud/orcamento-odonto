@@ -205,6 +205,8 @@ T15
 
 ### T5: Implement the L.U.C.R.E. calculation engine
 
+**Status**: ✅ Done
+
 **What**: `src/lib/lucre/engine.ts` - `computeCapacity` (LUCRE-10), `computeTotalFixedCosts`, `computeFixedCostPerMinute` (LUCRE-11), `computeAllocatedFixedCost` (LUCRE-12), `computeTotalDirectCost` (LUCRE-13), `computeMinPrice` (LUCRE-14), `computeRecommendedPrice` (LUCRE-15), `computeProfit`, `computeRealMargin`, `computeStatus` (LUCRE-20/21/22), and `runLucre(input)` that validates, filters empty rows and maps procedures to results.
 **Where**: `src/lib/lucre/engine.ts`
 **Depends on**: T3, T4

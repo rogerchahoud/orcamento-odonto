@@ -160,18 +160,18 @@ Dentists undercharge because they cannot reliably compute what a procedure costs
 | LUCRE-04       | P1: Wizard  | Design | Pending |
 | LUCRE-05       | P1: Wizard  | Design | Pending |
 | LUCRE-06       | P1: Wizard  | Design | Pending |
-| LUCRE-10       | P1: Motor   | Design | Pending |
-| LUCRE-11       | P1: Motor   | Design | Pending |
-| LUCRE-12       | P1: Motor   | Design | Pending |
-| LUCRE-13       | P1: Motor   | Design | Pending |
-| LUCRE-14       | P1: Motor   | Design | Pending |
-| LUCRE-15       | P1: Motor   | Design | Pending |
-| LUCRE-16       | P1: Motor   | Design | Pending |
-| LUCRE-17       | P1: Motor   | Design | Pending |
-| LUCRE-18       | P1: Motor   | Design | Pending |
-| LUCRE-20       | P1: Resultados | Design | Pending |
-| LUCRE-21       | P1: Resultados | Design | Pending |
-| LUCRE-22       | P1: Resultados | Design | Pending |
+| LUCRE-10       | P1: Motor   | Design | Verified |
+| LUCRE-11       | P1: Motor   | Design | Verified |
+| LUCRE-12       | P1: Motor   | Design | Verified |
+| LUCRE-13       | P1: Motor   | Design | Verified |
+| LUCRE-14       | P1: Motor   | Design | Verified |
+| LUCRE-15       | P1: Motor   | Design | Verified |
+| LUCRE-16       | P1: Motor   | Design | Verified |
+| LUCRE-17       | P1: Motor   | Design | Verified |
+| LUCRE-18       | P1: Motor   | Design | Verified |
+| LUCRE-20       | P1: Resultados | Design | Verified |
+| LUCRE-21       | P1: Resultados | Design | Verified |
+| LUCRE-22       | P1: Resultados | Design | Verified |
 | LUCRE-23       | P1: Resultados | Design | Pending |
 | LUCRE-40       | P1: Entrada robusta | Design | Verified |
 | LUCRE-41       | P1: Entrada robusta | Design | Verified |
@@ -189,7 +189,7 @@ Dentists undercharge because they cannot reliably compute what a procedure costs
 
 **Status values:** Pending → In Design → In Tasks → Implementing → Verified
 
-**Coverage:** 30 total, 9 verified (LUCRE-30/32/33/34, 40/41/42/43/44), 21 unmapped ⚠️
+**Coverage:** 30 total, 21 verified (LUCRE-10..18, 20/21/22, 30/32/33/34, 40/41/42/43/44), 9 unmapped ⚠️
 
 ---
 
