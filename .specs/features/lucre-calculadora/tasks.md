@@ -124,6 +124,8 @@ T15
 
 ### T2: Implement data-access layer (db + presets repository)
 
+**Status**: ✅ Done
+
 **What**: SQLite connection singleton (`src/lib/db.ts`, `LUCRE_DB_PATH` env, default `data/lucre.db`, `:memory:` support, WAL pragma, `CREATE TABLE IF NOT EXISTS presets`) and CRUD repository (`src/lib/presets/repository.ts`: list, upsert-by-name, delete).
 **Where**: `src/lib/db.ts` + `src/lib/presets/repository.ts` (one cohesive deliverable: data-access layer, since db.ts has no behavior testable apart from the repository)
 **Depends on**: T1
