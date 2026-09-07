@@ -256,6 +256,8 @@ T15
 
 ### T7: Implement presets Route Handler
 
+**Status**: ✅ Done
+
 **What**: `src/app/api/presets/route.ts` - `GET` → `{presets}`; `POST {name, clinic, costs}` → 201 create / 200 overwrite, 400 on blank name or invalid body; `DELETE ?id=` → 204, 400 missing id, 404 not found.
 **Where**: `src/app/api/presets/route.ts`
 **Depends on**: T2
