@@ -332,6 +332,8 @@ T15
 
 ### T10: Create StepCosts component
 
+**Status**: ✅ Done
+
 **What**: Step 2 form (`src/components/StepCosts.tsx`): editable field for each of the 14 categories, live TOTAL and fixed-cost-per-minute display (LUCRE-11).
 **Where**: `src/components/StepCosts.tsx`
 **Depends on**: T8, T3

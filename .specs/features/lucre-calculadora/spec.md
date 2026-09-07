@@ -156,7 +156,7 @@ Dentists undercharge because they cannot reliably compute what a procedure costs
 | -------------- | ----------- | ------ | ------- |
 | LUCRE-01       | P1: Wizard  | Design | Verified |
 | LUCRE-02       | P1: Wizard  | Design | Verified |
-| LUCRE-03       | P1: Wizard  | Design | Pending |
+| LUCRE-03       | P1: Wizard  | Design | Verified |
 | LUCRE-04       | P1: Wizard  | Design | Pending |
 | LUCRE-05       | P1: Wizard  | Design | Pending |
 | LUCRE-06       | P1: Wizard  | Design | Pending |
@@ -189,7 +189,7 @@ Dentists undercharge because they cannot reliably compute what a procedure costs
 
 **Status values:** Pending → In Design → In Tasks → Implementing → Verified
 
-**Coverage:** 30 total, 23 verified (LUCRE-01, 02, 10..18, 20/21/22, 30/32/33/34, 40/41/42/43/44), 7 unmapped ⚠️
+**Coverage:** 30 total, 24 verified (LUCRE-01/02/03, 10..18, 20/21/22, 30/32/33/34, 40/41/42/43/44), 6 unmapped ⚠️
 
 ---
 
