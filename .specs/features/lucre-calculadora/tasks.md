@@ -178,6 +178,8 @@ T15
 
 ### T4: Implement L.U.C.R.E. validation
 
+**Status**: ✅ Done
+
 **What**: `src/lib/lucre/validate.ts` - `validateLucreInput(input)` returning `ValidationError[]`: capacity-zero guard (LUCRE-40), percentage-sum >= 1 guard (LUCRE-41), blank/non-numeric/negative field checks (LUCRE-42), empty-row filter (LUCRE-43), blank preset-name guard (LUCRE-44).
 **Where**: `src/lib/lucre/validate.ts`
 **Depends on**: T3
