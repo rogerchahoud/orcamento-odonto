@@ -307,6 +307,8 @@ T15
 
 ### T9: Create StepClinic component
 
+**Status**: ✅ Done
+
 **What**: Step 1 form (`src/components/StepClinic.tsx`): inputs horas/dia, dias úteis, cadeiras, taxa cartão, imposto, comissão, margem alvo; live capacity display (`R$`-free minutes, LUCRE-02); surfaces validation messages (LUCRE-40/41/42).
 **Where**: `src/components/StepClinic.tsx`
 **Depends on**: T8, T3
