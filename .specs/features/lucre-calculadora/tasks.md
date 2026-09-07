@@ -282,6 +282,8 @@ T15
 
 ### T8: Create NumberInput component
 
+**Status**: ✅ Done
+
 **What**: Labeled numeric input (`src/components/ui/NumberInput.tsx`) rendering a label, input, and inline validation message; parses pt-BR comma via `parseNumberInput`.
 **Where**: `src/components/ui/NumberInput.tsx`
 **Depends on**: T1
