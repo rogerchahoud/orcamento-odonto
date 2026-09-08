@@ -457,6 +457,8 @@ T15
 
 ### T15: Create pages (layout + home)
 
+**Status**: ✅ Done
+
 **What**: `src/app/layout.tsx` (pt-BR, metadata, Tailwind v4 globals) and `src/app/page.tsx` (server component that lists presets and renders `<LucreWizard initialPresets>`).
 **Where**: `src/app/layout.tsx`, `src/app/page.tsx`
 **Depends on**: T14, T7

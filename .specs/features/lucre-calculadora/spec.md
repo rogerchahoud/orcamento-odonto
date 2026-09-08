@@ -183,7 +183,7 @@ Dentists undercharge because they cannot reliably compute what a procedure costs
 | LUCRE-32       | P2: Presets | Design | Verified |
 | LUCRE-33       | P2: Presets | Design | Verified |
 | LUCRE-34       | P2: Presets | Design | Verified |
-| LUCRE-35       | P2: Presets | Design | Pending |
+| LUCRE-35       | P2: Presets | Design | Verified |
 
 **ID format:** `[CATEGORY]-[NUMBER]` (e.g., `LUCRE-01`)
 
