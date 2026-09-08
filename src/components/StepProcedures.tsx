@@ -2,7 +2,6 @@
 
 import type { ProcedureInput } from '@/lib/lucre/types'
 import { parseNumberInput } from '@/lib/format'
-import { isEmptyProcedureRow } from '@/lib/lucre/validate'
 
 interface StepProceduresProps {
   value: ProcedureInput[]
@@ -28,8 +27,7 @@ function createEmptyRow(): ProcedureInput {
 const NUMERIC_FIELDS = ['timeMin', 'material', 'lab', 'implants', 'other'] as const
 
 export function StepProcedures({ value, onProceduresChange }: StepProceduresProps) {
-  const emit = (rows: ProcedureInput[]) =>
-    onProceduresChange(rows.filter((row) => !isEmptyProcedureRow(row)))
+  const emit = (rows: ProcedureInput[]) => onProceduresChange(rows)
 
   const addRow = () => onProceduresChange([...value, createEmptyRow()])
 

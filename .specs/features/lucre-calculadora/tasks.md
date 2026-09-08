@@ -371,7 +371,7 @@ T15
 
 **Done when**:
 
-- [ ] Component tests cover render of a row, add row, remove row, empty-row exclusion on emit (4 tests) - all pass
+- [ ] Component tests cover render of a row, add row, remove row, rows stay editable in the table while typing (empty rows excluded only in results by the engine) (4 tests) - all pass
 - [ ] Gate passes: `npm test`
 
 **Tests**: unit (component)

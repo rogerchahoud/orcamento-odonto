@@ -62,7 +62,7 @@ describe('StepProcedures', () => {
     expect(screen.getAllByLabelText('Procedimento')).toHaveLength(1)
   })
 
-  it('excludes empty rows when emitting the procedure list', () => {
+  it('keeps rows editable in the table while typing', () => {
     const onChange = vi.fn()
     render(
       <StepProcedures
@@ -70,9 +70,10 @@ describe('StepProcedures', () => {
         onProceduresChange={onChange}
       />
     )
-    fireEvent.change(screen.getAllByLabelText('Material')[0], { target: { value: '400' } })
+    expect(screen.getAllByLabelText('Procedimento')).toHaveLength(2)
+    fireEvent.change(screen.getAllByLabelText('Material')[1], { target: { value: '400' } })
     const emitted = onChange.mock.calls[0][0] as ProcedureInput[]
-    expect(emitted).toHaveLength(1)
-    expect(emitted[0].id).toBe('a')
+    expect(emitted).toHaveLength(2)
+    expect(emitted[1].id).toBe('b')
   })
 })
