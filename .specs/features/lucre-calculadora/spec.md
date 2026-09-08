@@ -172,7 +172,7 @@ Dentists undercharge because they cannot reliably compute what a procedure costs
 | LUCRE-20       | P1: Resultados | Design | Verified |
 | LUCRE-21       | P1: Resultados | Design | Verified |
 | LUCRE-22       | P1: Resultados | Design | Verified |
-| LUCRE-23       | P1: Resultados | Design | Pending |
+| LUCRE-23       | P1: Resultados | Design | Verified |
 | LUCRE-40       | P1: Entrada robusta | Design | Verified |
 | LUCRE-41       | P1: Entrada robusta | Design | Verified |
 | LUCRE-42       | P1: Entrada robusta | Design | Verified |
@@ -189,7 +189,7 @@ Dentists undercharge because they cannot reliably compute what a procedure costs
 
 **Status values:** Pending → In Design → In Tasks → Implementing → Verified
 
-**Coverage:** 30 total, 25 verified (LUCRE-01/02/03/04, 10..18, 20/21/22, 30/32/33/34, 40/41/42/43/44), 5 unmapped ⚠️
+**Coverage:** 30 total, 26 verified (LUCRE-01/02/03/04, 10..18, 20/21/22/23, 30/32/33/34, 40/41/42/43/44), 4 unmapped ⚠️
 
 ---
 

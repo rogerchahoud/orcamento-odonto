@@ -382,6 +382,8 @@ T15
 
 ### T12: Create ResultsTable component
 
+**Status**: ✅ Done
+
 **What**: Results table (`src/components/ResultsTable.tsx`): columns procedimento, especialidade, preço mínimo, preço recomendado, lucro, margem real, status - pt-BR formatting (LUCRE-23); status badge text per margin status (LUCRE-20/21/22).
 **Where**: `src/components/ResultsTable.tsx`
 **Depends on**: T3
