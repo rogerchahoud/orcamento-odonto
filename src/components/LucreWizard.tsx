@@ -1,7 +1,7 @@
 'use client'
 
 import { useMemo, useState } from 'react'
-import type { ClinicParams, FixedCosts, LucreInput, ProcedureInput } from '@/lib/lucre/types'
+import type { ClinicParams, FixedCosts, LucreInput, ProcedureInput, FixedCostCategory } from '@/lib/lucre/types'
 import { FIXED_COST_CATEGORIES } from '@/lib/lucre/types'
 import { runLucre } from '@/lib/lucre/engine'
 import { parseNumberInput } from '@/lib/format'
@@ -44,7 +44,9 @@ function clinicStringsToParams(clinic: ClinicStrings): ClinicParams {
 
 function costStringsToFixed(clinic: CostStrings): FixedCosts {
   return {
-    values: Object.fromEntries(FIXED_COST_CATEGORIES.map((c) => [c, toNumber(clinic[c])])),
+    values: Object.fromEntries(
+      FIXED_COST_CATEGORIES.map((category) => [category, toNumber(clinic[category])])
+    ) as Record<FixedCostCategory, number>,
   }
 }
 

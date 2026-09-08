@@ -4,6 +4,7 @@ import { FIXED_COST_CATEGORIES, type FixedCostCategory, type ValidationError } f
 import { computeTotalFixedCosts, computeFixedCostPerMinute } from '@/lib/lucre/engine'
 import { formatBRL, parseNumberInput } from '@/lib/format'
 import { NumberInput } from './ui/NumberInput'
+import type { FixedCosts } from '@/lib/lucre/types'
 
 export const COST_LABELS: Record<FixedCostCategory, string> = {
   aluguel: 'Aluguel',
@@ -36,7 +37,11 @@ function toNumber(raw: string): number {
 }
 
 export function StepCosts({ value, onChange, capacityMinutes, errors }: StepCostsProps) {
-  const costs = { values: Object.fromEntries(FIXED_COST_CATEGORIES.map((c) => [c, toNumber(value[c])])) }
+  const costs: FixedCosts = {
+    values: Object.fromEntries(
+      FIXED_COST_CATEGORIES.map((c) => [c, toNumber(value[c])])
+    ) as Record<FixedCostCategory, number>,
+  }
   const total = computeTotalFixedCosts(costs)
   const perMinute = computeFixedCostPerMinute(costs, capacityMinutes)
 
