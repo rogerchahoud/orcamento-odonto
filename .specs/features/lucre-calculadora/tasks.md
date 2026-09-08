@@ -357,6 +357,8 @@ T15
 
 ### T11: Create StepProcedures component
 
+**Status**: ✅ Done
+
 **What**: Step 3 editable procedure table (`src/components/StepProcedures.tsx`): columns procedimento, especialidade, tempo (min), material, laboratório, implantes, outros; add/remove rows; emits typed `ProcedureInput[]`.
 **Where**: `src/components/StepProcedures.tsx`
 **Depends on**: T3
