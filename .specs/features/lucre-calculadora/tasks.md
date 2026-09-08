@@ -432,6 +432,8 @@ T15
 
 ### T14: Create LucreWizard (client) with live results
 
+**Status**: ✅ Done
+
 **What**: `src/components/LucreWizard.tsx` - holds step index + all form state; navigation Próximo/Voltar preserving values (LUCRE-05/06); runs `runLucre` live and renders ResultsTable inside Step 3 (LUCRE-23); wires PresetManager; renders validation banner when `ok:false`.
 **Where**: `src/components/LucreWizard.tsx`
 **Depends on**: T9, T10, T11, T12, T13

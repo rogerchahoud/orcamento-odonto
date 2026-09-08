@@ -158,8 +158,8 @@ Dentists undercharge because they cannot reliably compute what a procedure costs
 | LUCRE-02       | P1: Wizard  | Design | Verified |
 | LUCRE-03       | P1: Wizard  | Design | Verified |
 | LUCRE-04       | P1: Wizard  | Design | Verified |
-| LUCRE-05       | P1: Wizard  | Design | Pending |
-| LUCRE-06       | P1: Wizard  | Design | Pending |
+| LUCRE-05       | P1: Wizard  | Design | Verified |
+| LUCRE-06       | P1: Wizard  | Design | Verified |
 | LUCRE-10       | P1: Motor   | Design | Verified |
 | LUCRE-11       | P1: Motor   | Design | Verified |
 | LUCRE-12       | P1: Motor   | Design | Verified |
