@@ -64,7 +64,7 @@ export function StepProcedures({ value, onProceduresChange }: StepProceduresProp
                   value={row.name}
                   placeholder="Procedimento"
                   onChange={(event) => updateField(row.id, { name: event.target.value })}
-                  className="w-full rounded border border-zinc-300 px-2 py-1"
+                  className="w-full rounded border border-zinc-300 bg-white px-2 py-1 text-zinc-900"
                 />
               </td>
               <td className="py-2 pr-2">
@@ -73,7 +73,7 @@ export function StepProcedures({ value, onProceduresChange }: StepProceduresProp
                   value={row.specialty}
                   placeholder="Especialidade"
                   onChange={(event) => updateField(row.id, { specialty: event.target.value })}
-                  className="w-full rounded border border-zinc-300 px-2 py-1"
+                  className="w-full rounded border border-zinc-300 bg-white px-2 py-1 text-zinc-900"
                 />
               </td>
               <td className="py-2 pr-2">
@@ -82,7 +82,7 @@ export function StepProcedures({ value, onProceduresChange }: StepProceduresProp
                   inputMode="decimal"
                   value={row.timeMin}
                   onChange={(event) => updateNumeric(row.id, 'timeMin', event.target.value)}
-                  className="w-20 rounded border border-zinc-300 px-2 py-1 text-right"
+                  className="w-20 rounded border border-zinc-300 bg-white px-2 py-1 text-right text-zinc-900"
                 />
               </td>
               <td className="py-2 pr-2">
@@ -91,7 +91,7 @@ export function StepProcedures({ value, onProceduresChange }: StepProceduresProp
                   inputMode="decimal"
                   value={row.material}
                   onChange={(event) => updateNumeric(row.id, 'material', event.target.value)}
-                  className="w-20 rounded border border-zinc-300 px-2 py-1 text-right"
+                  className="w-20 rounded border border-zinc-300 bg-white px-2 py-1 text-right text-zinc-900"
                 />
               </td>
               <td className="py-2 pr-2">
@@ -100,7 +100,7 @@ export function StepProcedures({ value, onProceduresChange }: StepProceduresProp
                   inputMode="decimal"
                   value={row.lab}
                   onChange={(event) => updateNumeric(row.id, 'lab', event.target.value)}
-                  className="w-20 rounded border border-zinc-300 px-2 py-1 text-right"
+                  className="w-20 rounded border border-zinc-300 bg-white px-2 py-1 text-right text-zinc-900"
                 />
               </td>
               <td className="py-2 pr-2">
@@ -109,7 +109,7 @@ export function StepProcedures({ value, onProceduresChange }: StepProceduresProp
                   inputMode="decimal"
                   value={row.implants}
                   onChange={(event) => updateNumeric(row.id, 'implants', event.target.value)}
-                  className="w-20 rounded border border-zinc-300 px-2 py-1 text-right"
+                  className="w-20 rounded border border-zinc-300 bg-white px-2 py-1 text-right text-zinc-900"
                 />
               </td>
               <td className="py-2 pr-2">
@@ -118,7 +118,7 @@ export function StepProcedures({ value, onProceduresChange }: StepProceduresProp
                   inputMode="decimal"
                   value={row.other}
                   onChange={(event) => updateNumeric(row.id, 'other', event.target.value)}
-                  className="w-20 rounded border border-zinc-300 px-2 py-1 text-right"
+                  className="w-20 rounded border border-zinc-300 bg-white px-2 py-1 text-right text-zinc-900"
                 />
               </td>
               <td className="py-2">

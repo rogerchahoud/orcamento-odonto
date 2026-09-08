@@ -61,7 +61,7 @@ export function PresetManager({ initialPresets, clinic, costs, onLoad }: PresetM
           value={name}
           placeholder="Nome do preset"
           onChange={(event) => setName(event.target.value)}
-          className="rounded border border-zinc-300 px-3 py-2 text-sm"
+          className="rounded border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900"
         />
         <button
           type="button"

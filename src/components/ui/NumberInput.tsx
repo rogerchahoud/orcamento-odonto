@@ -21,7 +21,7 @@ export function NumberInput({ label, value, onChange, error, placeholder }: Numb
         placeholder={placeholder}
         aria-label={label}
         onChange={(event) => onChange(parseNumberInput(event.target.value))}
-        className="rounded border border-zinc-300 px-3 py-2 text-sm"
+        className="w-full rounded border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900"
       />
       {error ? <span className="text-xs text-red-600">{error}</span> : null}
     </label>
