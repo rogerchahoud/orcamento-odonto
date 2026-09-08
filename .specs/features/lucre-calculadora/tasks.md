@@ -407,7 +407,9 @@ T15
 
 ### T13: Create PresetManager component
 
-**What**: Preset controls (`src/components/PresetManager.tsx`): list presets by name, load (fills wizard), delete, save-as-name (upsert) - via `fetch` to `/api/presets`; blocks blank-name save.
+**Status**: ✅ Done
+
+**What**: Preset controls (`src/components/PresetManager.tsx`): list presets by name, load (fills wizard), delete, save-as-name (upsert) - via `fetch` to `/api/presets`; blocks blank-name save. Adds `getPreset` to the repository and GET-by-id to the presets route so loading a saved preset returns its full clinic/costs.
 **Where**: `src/components/PresetManager.tsx`
 **Depends on**: T3
 **Reuses**: N/A

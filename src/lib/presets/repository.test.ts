@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { listPresets, upsertPreset, deletePreset } from './repository'
+import { listPresets, upsertPreset, deletePreset, getPreset } from './repository'
 
 const clinic = {
   hoursPerDay: 10,
@@ -85,6 +85,20 @@ describe('presets repository', () => {
 
   it('returns false when deleting a missing id', () => {
     expect(deletePreset('does-not-exist')).toBe(false)
+  })
+
+  it('gets a preset by id with its full clinic and costs payload', () => {
+    const preset = upsertPreset({ name: 'Clinica C', clinic, costs: baseCosts })
+
+    const found = getPreset(preset.id)
+    expect(found).not.toBeNull()
+    expect(found?.name).toBe('Clinica C')
+    expect(found?.clinic).toEqual(clinic)
+    expect(found?.costs).toEqual(baseCosts)
+  })
+
+  it('returns null when getting a missing id', () => {
+    expect(getPreset('does-not-exist')).toBeNull()
   })
 
   it('keeps presets with distinct names separate', () => {

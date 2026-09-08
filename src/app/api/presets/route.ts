@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { listPresets, upsertPreset, deletePreset } from '@/lib/presets/repository'
+import { listPresets, upsertPreset, deletePreset, getPreset } from '@/lib/presets/repository'
 import { validatePresetName } from '@/lib/lucre/validate'
 
 interface PresetBody {
@@ -28,7 +28,15 @@ const CLINIC_NUMBER_FIELDS = [
   'targetMargin',
 ] as const
 
-export async function GET(): Promise<NextResponse> {
+export async function GET(request?: NextRequest): Promise<NextResponse> {
+  const id = request?.nextUrl.searchParams.get('id')
+  if (id) {
+    const preset = getPreset(id)
+    if (!preset) {
+      return NextResponse.json({ error: 'Preset não encontrado.' }, { status: 404 })
+    }
+    return NextResponse.json({ preset })
+  }
   return NextResponse.json({ presets: listPresets() })
 }
 

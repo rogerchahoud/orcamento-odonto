@@ -64,6 +64,25 @@ describe('presets route handler', () => {
     expect(data.presets[0].name).toBe('Clinica B')
   })
 
+  it('returns a full preset on GET by id', async () => {
+    const preset = upsertPreset({ name: 'Clinica D', clinic, costs })
+    const req = new NextRequest(`http://localhost/api/presets?id=${preset.id}`)
+
+    const res = await GET(req)
+    expect(res.status).toBe(200)
+    const data = await res.json()
+    expect(data.preset.id).toBe(preset.id)
+    expect(data.preset.clinic).toEqual(clinic)
+    expect(data.preset.costs).toEqual(costs)
+  })
+
+  it('returns 404 on GET by unknown id', async () => {
+    const req = new NextRequest('http://localhost/api/presets?id=missing')
+
+    const res = await GET(req)
+    expect(res.status).toBe(404)
+  })
+
   it('creates a preset with 201', async () => {
     const res = await POST(postRequest({ name: 'Clinica A', clinic, costs }))
 

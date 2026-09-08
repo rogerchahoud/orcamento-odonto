@@ -72,6 +72,13 @@ export function upsertPreset(input: {
   return mapRow(row)
 }
 
+export function getPreset(id: string): Preset | null {
+  const row = db
+    .prepare('SELECT id, name, data, created_at, updated_at FROM presets WHERE id = ?')
+    .get(id) as PresetRow | undefined
+  return row ? mapRow(row) : null
+}
+
 export function deletePreset(id: string): boolean {
   const info = db.prepare('DELETE FROM presets WHERE id = ?').run(id)
   return info.changes > 0
