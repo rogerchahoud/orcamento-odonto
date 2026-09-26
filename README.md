@@ -16,6 +16,19 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## Banco de dados local (PostgreSQL via Docker no WSL)
+
+O projeto usa PostgreSQL. Em dev/testes ele roda num container Docker dentro do WSL2 Ubuntu:
+
+```bash
+npm run db:up      # garante o container lucre-pg rodando
+npm test           # os testes usam o Postgres local
+```
+
+- Conexão local definida em `.env`: `DATABASE_URL=postgres://postgres:<senha>@localhost:5432/lucre`.
+- Em produção (Vercel), use Neon/Vercel Postgres e configure a mesma variável `DATABASE_URL`.
+- A instância WSL está configurada (`~/.wslconfig`) para não desligar quando ociosa.
+
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.

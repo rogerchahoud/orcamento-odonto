@@ -31,13 +31,13 @@ const CLINIC_NUMBER_FIELDS = [
 export async function GET(request?: NextRequest): Promise<NextResponse> {
   const id = request?.nextUrl.searchParams.get('id')
   if (id) {
-    const preset = getPreset(id)
+    const preset = await getPreset(id)
     if (!preset) {
       return NextResponse.json({ error: 'Preset não encontrado.' }, { status: 404 })
     }
     return NextResponse.json({ preset })
   }
-  return NextResponse.json({ presets: listPresets() })
+  return NextResponse.json({ presets: await listPresets() })
 }
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
@@ -49,8 +49,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   if (nameError) {
     return NextResponse.json({ error: nameError.message }, { status: 400 })
   }
-  const exists = listPresets().some((preset) => preset.name === body.name)
-  const preset = upsertPreset({
+  const exists = (await listPresets()).some((preset) => preset.name === body.name)
+  const preset = await upsertPreset({
     name: body.name,
     clinic: body.clinic,
     costs: body.costs,
@@ -63,7 +63,7 @@ export async function DELETE(request: NextRequest): Promise<NextResponse> {
   if (!id) {
     return NextResponse.json({ error: 'Informe o id.' }, { status: 400 })
   }
-  if (!deletePreset(id)) {
+  if (!(await deletePreset(id))) {
     return NextResponse.json({ error: 'Preset não encontrado.' }, { status: 404 })
   }
   return new NextResponse(null, { status: 204 })

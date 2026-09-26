@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto'
-import { db } from '@/lib/db'
+import { sql, ensureSchema } from '@/lib/db'
 
 interface ClinicParams {
   hoursPerDay: number
@@ -30,68 +30,74 @@ export interface Preset {
   updatedAt: string
 }
 
-interface PresetRow {
-  id: string
-  name: string
-  data: string
-  created_at: string
-  updated_at: string
-}
+const FULL_COLUMNS = `
+  id, name, data,
+  created_at AS "createdAt",
+  updated_at AS "updatedAt"
+`
 
-export function listPresets(): PresetSummary[] {
-  const rows = db
-    .prepare('SELECT id, name, updated_at FROM presets ORDER BY name')
-    .all() as Array<{ id: string; name: string; updated_at: string }>
+export async function listPresets(): Promise<PresetSummary[]> {
+  await ensureSchema()
+  const rows = await sql`
+    SELECT id, name, updated_at AS "updatedAt"
+    FROM presets
+    ORDER BY name
+  `
   return rows.map((row) => ({
-    id: row.id,
-    name: row.name,
-    updatedAt: row.updated_at,
+    id: row.id as string,
+    name: row.name as string,
+    updatedAt: row.updatedAt as string,
   }))
 }
 
-export function upsertPreset(input: {
+export async function upsertPreset(input: {
   name: string
   clinic: ClinicParams
   costs: FixedCosts
-}): Preset {
+}): Promise<Preset> {
+  await ensureSchema()
   const now = new Date().toISOString()
-  db.prepare(
-    `INSERT INTO presets (id, name, data, created_at, updated_at)
-     VALUES (?, ?, ?, ?, ?)
-     ON CONFLICT(name) DO UPDATE SET data = excluded.data, updated_at = excluded.updated_at`
-  ).run(
-    randomUUID(),
-    input.name,
-    JSON.stringify({ clinic: input.clinic, costs: input.costs }),
-    now,
-    now
-  )
-  const row = db
-    .prepare('SELECT id, name, data, created_at, updated_at FROM presets WHERE name = ?')
-    .get(input.name) as PresetRow
-  return mapRow(row)
+  const rows = await sql`
+    INSERT INTO presets (id, name, data, created_at, updated_at)
+    VALUES (
+      ${randomUUID()},
+      ${input.name},
+      ${JSON.stringify({ clinic: input.clinic, costs: input.costs })},
+      ${now},
+      ${now}
+    )
+    ON CONFLICT (name) DO UPDATE
+      SET data = EXCLUDED.data, updated_at = EXCLUDED.updated_at
+    RETURNING ${sql.unsafe(FULL_COLUMNS)}
+  `
+  return mapRow(rows[0])
 }
 
-export function getPreset(id: string): Preset | null {
-  const row = db
-    .prepare('SELECT id, name, data, created_at, updated_at FROM presets WHERE id = ?')
-    .get(id) as PresetRow | undefined
+export async function getPreset(id: string): Promise<Preset | null> {
+  await ensureSchema()
+  const rows = await sql`
+    SELECT ${sql.unsafe(FULL_COLUMNS)}
+    FROM presets
+    WHERE id = ${id}
+  `
+  const row = rows[0]
   return row ? mapRow(row) : null
 }
 
-export function deletePreset(id: string): boolean {
-  const info = db.prepare('DELETE FROM presets WHERE id = ?').run(id)
-  return info.changes > 0
+export async function deletePreset(id: string): Promise<boolean> {
+  await ensureSchema()
+  const result = await sql`DELETE FROM presets WHERE id = ${id}`
+  return result.count > 0
 }
 
-function mapRow(row: PresetRow): Preset {
-  const payload = JSON.parse(row.data) as { clinic: ClinicParams; costs: FixedCosts }
+function mapRow(row: Record<string, unknown>): Preset {
+  const payload = JSON.parse(String(row.data)) as { clinic: ClinicParams; costs: FixedCosts }
   return {
-    id: row.id,
-    name: row.name,
+    id: String(row.id),
+    name: String(row.name),
     clinic: payload.clinic,
     costs: payload.costs,
-    createdAt: row.created_at,
-    updatedAt: row.updated_at,
+    createdAt: String(row.createdAt),
+    updatedAt: String(row.updatedAt),
   }
 }

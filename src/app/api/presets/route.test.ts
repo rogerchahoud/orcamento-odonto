@@ -41,9 +41,9 @@ function postRequest(body: unknown): NextRequest {
 }
 
 describe('presets route handler', () => {
-  beforeEach(() => {
-    for (const preset of listPresets()) {
-      deletePreset(preset.id)
+  beforeEach(async () => {
+    for (const preset of await listPresets()) {
+      await deletePreset(preset.id)
     }
   })
 
@@ -65,7 +65,7 @@ describe('presets route handler', () => {
   })
 
   it('returns a full preset on GET by id', async () => {
-    const preset = upsertPreset({ name: 'Clinica D', clinic, costs })
+    const preset = await upsertPreset({ name: 'Clinica D', clinic, costs })
     const req = new NextRequest(`http://localhost/api/presets?id=${preset.id}`)
 
     const res = await GET(req)
@@ -101,7 +101,7 @@ describe('presets route handler', () => {
     expect(res.status).toBe(200)
     const data = await res.json()
     expect(data.preset.costs.values.aluguel).toBe(9000)
-    expect(listPresets()).toHaveLength(1)
+    expect(await listPresets()).toHaveLength(1)
   })
 
   it('rejects a blank name with 400', async () => {
@@ -111,14 +111,14 @@ describe('presets route handler', () => {
   })
 
   it('deletes a preset with 204', async () => {
-    const preset = upsertPreset({ name: 'Clinica C', clinic, costs })
+    const preset = await upsertPreset({ name: 'Clinica C', clinic, costs })
     const req = new NextRequest(`http://localhost/api/presets?id=${preset.id}`, {
       method: 'DELETE',
     })
 
     const res = await DELETE(req)
     expect(res.status).toBe(204)
-    expect(listPresets().some((p) => p.id === preset.id)).toBe(false)
+    expect((await listPresets()).some((p) => p.id === preset.id)).toBe(false)
   })
 
   it('rejects DELETE without id with 400 and an unknown id with 404', async () => {

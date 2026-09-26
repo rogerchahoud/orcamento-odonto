@@ -31,18 +31,18 @@ const baseCosts = {
 }
 
 describe('presets repository', () => {
-  beforeEach(() => {
-    for (const preset of listPresets()) {
-      deletePreset(preset.id)
+  beforeEach(async () => {
+    for (const preset of await listPresets()) {
+      await deletePreset(preset.id)
     }
   })
 
-  it('lists empty on a fresh database', () => {
-    expect(listPresets()).toEqual([])
+  it('lists empty on a fresh database', async () => {
+    expect(await listPresets()).toEqual([])
   })
 
-  it('upserts a new preset', () => {
-    const preset = upsertPreset({ name: 'Clinica A', clinic, costs: baseCosts })
+  it('upserts a new preset', async () => {
+    const preset = await upsertPreset({ name: 'Clinica A', clinic, costs: baseCosts })
 
     expect(preset.id).toBeTruthy()
     expect(preset.name).toBe('Clinica A')
@@ -51,7 +51,7 @@ describe('presets repository', () => {
     expect(preset.createdAt).toBeTruthy()
     expect(preset.updatedAt).toBe(preset.createdAt)
 
-    const summaries = listPresets()
+    const summaries = await listPresets()
     expect(summaries).toHaveLength(1)
     expect(summaries[0]).toEqual({
       id: preset.id,
@@ -60,54 +60,54 @@ describe('presets repository', () => {
     })
   })
 
-  it('overwrites an existing preset by name', () => {
-    const first = upsertPreset({ name: 'Clinica A', clinic, costs: baseCosts })
+  it('overwrites an existing preset by name', async () => {
+    const first = await upsertPreset({ name: 'Clinica A', clinic, costs: baseCosts })
 
     const changedCosts = {
       values: { ...baseCosts.values, aluguel: 9000 },
     }
-    const second = upsertPreset({ name: 'Clinica A', clinic, costs: changedCosts })
+    const second = await upsertPreset({ name: 'Clinica A', clinic, costs: changedCosts })
 
     expect(second.name).toBe('Clinica A')
     expect(second.id).toBe(first.id)
     expect(second.costs.values.aluguel).toBe(9000)
     expect(second.createdAt).toBe(first.createdAt)
     expect(second.updatedAt >= first.updatedAt).toBe(true)
-    expect(listPresets()).toHaveLength(1)
+    expect(await listPresets()).toHaveLength(1)
   })
 
-  it('deletes an existing preset', () => {
-    const preset = upsertPreset({ name: 'Clinica B', clinic, costs: baseCosts })
+  it('deletes an existing preset', async () => {
+    const preset = await upsertPreset({ name: 'Clinica B', clinic, costs: baseCosts })
 
-    expect(deletePreset(preset.id)).toBe(true)
-    expect(listPresets().some((p) => p.id === preset.id)).toBe(false)
+    expect(await deletePreset(preset.id)).toBe(true)
+    expect((await listPresets()).some((p) => p.id === preset.id)).toBe(false)
   })
 
-  it('returns false when deleting a missing id', () => {
-    expect(deletePreset('does-not-exist')).toBe(false)
+  it('returns false when deleting a missing id', async () => {
+    expect(await deletePreset('does-not-exist')).toBe(false)
   })
 
-  it('gets a preset by id with its full clinic and costs payload', () => {
-    const preset = upsertPreset({ name: 'Clinica C', clinic, costs: baseCosts })
+  it('gets a preset by id with its full clinic and costs payload', async () => {
+    const preset = await upsertPreset({ name: 'Clinica C', clinic, costs: baseCosts })
 
-    const found = getPreset(preset.id)
+    const found = await getPreset(preset.id)
     expect(found).not.toBeNull()
     expect(found?.name).toBe('Clinica C')
     expect(found?.clinic).toEqual(clinic)
     expect(found?.costs).toEqual(baseCosts)
   })
 
-  it('returns null when getting a missing id', () => {
-    expect(getPreset('does-not-exist')).toBeNull()
+  it('returns null when getting a missing id', async () => {
+    expect(await getPreset('does-not-exist')).toBeNull()
   })
 
-  it('keeps presets with distinct names separate', () => {
-    upsertPreset({ name: 'Clinica X', clinic, costs: baseCosts })
-    upsertPreset({ name: 'Clinica Y', clinic, costs: baseCosts })
+  it('keeps presets with distinct names separate', async () => {
+    await upsertPreset({ name: 'Clinica X', clinic, costs: baseCosts })
+    await upsertPreset({ name: 'Clinica Y', clinic, costs: baseCosts })
 
-    const names = listPresets().map((p) => p.name)
+    const names = (await listPresets()).map((p) => p.name)
     expect(names).toContain('Clinica X')
     expect(names).toContain('Clinica Y')
-    expect(listPresets()).toHaveLength(2)
+    expect(await listPresets()).toHaveLength(2)
   })
 })

@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     "Precifique seus procedimentos odontológicos: preço mínimo, preço recomendado e margem por procedimento.",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html
       lang="pt-BR"

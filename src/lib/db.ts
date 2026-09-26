@@ -1,23 +1,24 @@
-import Database from 'better-sqlite3'
-import fs from 'node:fs'
-import path from 'node:path'
+import postgres from 'postgres'
 
-const dbPath = process.env.LUCRE_DB_PATH ?? 'data/lucre.db'
+export const sql = postgres(process.env.DATABASE_URL ?? 'postgres://localhost:5432/lucre', {
+  max: 10,
+  idle_timeout: 20,
+  connect_timeout: 10,
+})
 
-if (dbPath !== ':memory:') {
-  fs.mkdirSync(path.dirname(dbPath), { recursive: true })
+let schemaReady: Promise<void> | null = null
+
+export function ensureSchema(): Promise<void> {
+  if (!schemaReady) {
+    schemaReady = sql`
+      CREATE TABLE IF NOT EXISTS presets (
+        id         TEXT PRIMARY KEY,
+        name       TEXT NOT NULL UNIQUE,
+        data       TEXT NOT NULL,
+        created_at TEXT NOT NULL,
+        updated_at TEXT NOT NULL
+      )
+    `.then(() => undefined)
+  }
+  return schemaReady
 }
-
-export const db = new Database(dbPath)
-
-db.pragma('journal_mode = WAL')
-
-db.exec(`
-  CREATE TABLE IF NOT EXISTS presets (
-    id         TEXT PRIMARY KEY,
-    name       TEXT NOT NULL UNIQUE,
-    data       TEXT NOT NULL,
-    created_at TEXT NOT NULL,
-    updated_at TEXT NOT NULL
-  );
-`)

@@ -3,8 +3,8 @@ import { LucreWizard } from "@/components/LucreWizard";
 
 export const dynamic = "force-dynamic";
 
-export default function Home() {
-  const presets = listPresets();
+export default async function Home() {
+  const presets = await listPresets();
 
   return (
     <main className="min-h-screen bg-zinc-50 px-4 py-8">
