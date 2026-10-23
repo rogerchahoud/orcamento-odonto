@@ -107,15 +107,37 @@ export function LucreWizard({ initialPresets }: LucreWizardProps) {
         costs={costStringsToFixed(costs)}
         onLoad={applyPreset}
       />
-      <div className="flex gap-2">
-        {STEPS.map((label, index) => (
-          <span
-            key={label}
-            className={`text-sm ${index === step ? 'font-semibold text-zinc-900' : 'text-zinc-400'}`}
-          >
-            {index + 1}. {label}
-          </span>
-        ))}
+      <div className="flex items-center justify-between gap-2">
+        <div className="flex gap-2">
+          {STEPS.map((label, index) => (
+            <span
+              key={label}
+              className={`text-sm ${index === step ? 'font-semibold text-zinc-900' : 'text-zinc-400'}`}
+            >
+              {index + 1}. {label}
+            </span>
+          ))}
+        </div>
+        <div className="flex gap-2">
+          {step > 0 ? (
+            <button
+              type="button"
+              onClick={() => setStep(step - 1)}
+              className="rounded border border-zinc-300 px-4 py-2 text-sm hover:bg-zinc-50"
+            >
+              Voltar
+            </button>
+          ) : null}
+          {step < STEPS.length - 1 ? (
+            <button
+              type="button"
+              onClick={() => setStep(step + 1)}
+              className="rounded bg-zinc-800 px-4 py-2 text-sm text-white hover:bg-zinc-700"
+            >
+              Próximo
+            </button>
+          ) : null}
+        </div>
       </div>
 
       {!result.ok && result.errors.length > 0 ? (
@@ -148,26 +170,6 @@ export function LucreWizard({ initialPresets }: LucreWizardProps) {
         </div>
       ) : null}
 
-      <div className="flex gap-2">
-        {step > 0 ? (
-          <button
-            type="button"
-            onClick={() => setStep(step - 1)}
-            className="rounded border border-zinc-300 px-4 py-2 text-sm hover:bg-zinc-50"
-          >
-            Voltar
-          </button>
-        ) : null}
-        {step < STEPS.length - 1 ? (
-          <button
-            type="button"
-            onClick={() => setStep(step + 1)}
-            className="rounded bg-zinc-800 px-4 py-2 text-sm text-white hover:bg-zinc-700"
-          >
-            Próximo
-          </button>
-        ) : null}
-      </div>
     </div>
   )
 }
