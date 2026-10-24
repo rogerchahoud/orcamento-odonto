@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { auth } from '@/lib/auth/server'
 import { listPresets, upsertPreset, deletePreset, getPreset } from '@/lib/presets/repository'
 import { validatePresetName } from '@/lib/lucre/validate'
 
@@ -28,19 +29,34 @@ const CLINIC_NUMBER_FIELDS = [
   'targetMargin',
 ] as const
 
+async function requireUserId(): Promise<string | null> {
+  const { data } = await auth.getSession()
+  return data?.user?.id ?? null
+}
+
 export async function GET(request?: NextRequest): Promise<NextResponse> {
+  const userId = await requireUserId()
+  if (!userId) {
+    return NextResponse.json({ error: 'Não autenticado.' }, { status: 401 })
+  }
+
   const id = request?.nextUrl.searchParams.get('id')
   if (id) {
-    const preset = await getPreset(id)
+    const preset = await getPreset(userId, id)
     if (!preset) {
       return NextResponse.json({ error: 'Preset não encontrado.' }, { status: 404 })
     }
     return NextResponse.json({ preset })
   }
-  return NextResponse.json({ presets: await listPresets() })
+  return NextResponse.json({ presets: await listPresets(userId) })
 }
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
+  const userId = await requireUserId()
+  if (!userId) {
+    return NextResponse.json({ error: 'Não autenticado.' }, { status: 401 })
+  }
+
   const body = await readBody(request)
   if (!body) {
     return NextResponse.json({ error: 'Corpo inválido.' }, { status: 400 })
@@ -49,8 +65,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   if (nameError) {
     return NextResponse.json({ error: nameError.message }, { status: 400 })
   }
-  const exists = (await listPresets()).some((preset) => preset.name === body.name)
-  const preset = await upsertPreset({
+  const exists = (await listPresets(userId)).some((preset) => preset.name === body.name)
+  const preset = await upsertPreset(userId, {
     name: body.name,
     clinic: body.clinic,
     costs: body.costs,
@@ -59,11 +75,16 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 }
 
 export async function DELETE(request: NextRequest): Promise<NextResponse> {
+  const userId = await requireUserId()
+  if (!userId) {
+    return NextResponse.json({ error: 'Não autenticado.' }, { status: 401 })
+  }
+
   const id = request.nextUrl.searchParams.get('id')
   if (!id) {
     return NextResponse.json({ error: 'Informe o id.' }, { status: 400 })
   }
-  if (!(await deletePreset(id))) {
+  if (!(await deletePreset(userId, id))) {
     return NextResponse.json({ error: 'Preset não encontrado.' }, { status: 404 })
   }
   return new NextResponse(null, { status: 204 })

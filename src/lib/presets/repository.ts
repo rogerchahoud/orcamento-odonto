@@ -36,11 +36,12 @@ const FULL_COLUMNS = `
   updated_at AS "updatedAt"
 `
 
-export async function listPresets(): Promise<PresetSummary[]> {
+export async function listPresets(userId: string): Promise<PresetSummary[]> {
   await ensureSchema()
   const rows = await sql`
     SELECT id, name, updated_at AS "updatedAt"
     FROM presets
+    WHERE user_id = ${userId}
     ORDER BY name
   `
   return rows.map((row) => ({
@@ -50,43 +51,47 @@ export async function listPresets(): Promise<PresetSummary[]> {
   }))
 }
 
-export async function upsertPreset(input: {
-  name: string
-  clinic: ClinicParams
-  costs: FixedCosts
-}): Promise<Preset> {
+export async function upsertPreset(
+  userId: string,
+  input: {
+    name: string
+    clinic: ClinicParams
+    costs: FixedCosts
+  }
+): Promise<Preset> {
   await ensureSchema()
   const now = new Date().toISOString()
   const rows = await sql`
-    INSERT INTO presets (id, name, data, created_at, updated_at)
+    INSERT INTO presets (id, user_id, name, data, created_at, updated_at)
     VALUES (
       ${randomUUID()},
+      ${userId},
       ${input.name},
       ${JSON.stringify({ clinic: input.clinic, costs: input.costs })},
       ${now},
       ${now}
     )
-    ON CONFLICT (name) DO UPDATE
+    ON CONFLICT (user_id, name) DO UPDATE
       SET data = EXCLUDED.data, updated_at = EXCLUDED.updated_at
     RETURNING ${sql.unsafe(FULL_COLUMNS)}
   `
   return mapRow(rows[0])
 }
 
-export async function getPreset(id: string): Promise<Preset | null> {
+export async function getPreset(userId: string, id: string): Promise<Preset | null> {
   await ensureSchema()
   const rows = await sql`
     SELECT ${sql.unsafe(FULL_COLUMNS)}
     FROM presets
-    WHERE id = ${id}
+    WHERE id = ${id} AND user_id = ${userId}
   `
   const row = rows[0]
   return row ? mapRow(row) : null
 }
 
-export async function deletePreset(id: string): Promise<boolean> {
+export async function deletePreset(userId: string, id: string): Promise<boolean> {
   await ensureSchema()
-  const result = await sql`DELETE FROM presets WHERE id = ${id}`
+  const result = await sql`DELETE FROM presets WHERE id = ${id} AND user_id = ${userId}`
   return result.count > 0
 }
 

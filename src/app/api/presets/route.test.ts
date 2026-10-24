@@ -1,7 +1,14 @@
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { NextRequest } from 'next/server'
 import { GET, POST, DELETE } from './route'
+import { auth } from '@/lib/auth/server'
 import { listPresets, deletePreset, upsertPreset } from '@/lib/presets/repository'
+
+vi.mock('@/lib/auth/server', () => ({
+  auth: { getSession: vi.fn() },
+}))
+
+const userId = 'user-test-1'
 
 const clinic = {
   hoursPerDay: 10,
@@ -32,6 +39,12 @@ const costs = {
   },
 }
 
+function authenticated() {
+  vi.mocked(auth.getSession).mockResolvedValue({
+    data: { user: { id: userId, email: 'test@example.com' } },
+  } as never)
+}
+
 function postRequest(body: unknown): NextRequest {
   return new NextRequest('http://localhost/api/presets', {
     method: 'POST',
@@ -42,9 +55,17 @@ function postRequest(body: unknown): NextRequest {
 
 describe('presets route handler', () => {
   beforeEach(async () => {
-    for (const preset of await listPresets()) {
-      await deletePreset(preset.id)
+    authenticated()
+    for (const preset of await listPresets(userId)) {
+      await deletePreset(userId, preset.id)
     }
+  })
+
+  it('returns 401 when unauthenticated', async () => {
+    vi.mocked(auth.getSession).mockResolvedValueOnce({ data: null } as never)
+
+    const res = await GET()
+    expect(res.status).toBe(401)
   })
 
   it('returns an empty list on GET', async () => {
@@ -65,7 +86,7 @@ describe('presets route handler', () => {
   })
 
   it('returns a full preset on GET by id', async () => {
-    const preset = await upsertPreset({ name: 'Clinica D', clinic, costs })
+    const preset = await upsertPreset(userId, { name: 'Clinica D', clinic, costs })
     const req = new NextRequest(`http://localhost/api/presets?id=${preset.id}`)
 
     const res = await GET(req)
@@ -101,7 +122,7 @@ describe('presets route handler', () => {
     expect(res.status).toBe(200)
     const data = await res.json()
     expect(data.preset.costs.values.aluguel).toBe(9000)
-    expect(await listPresets()).toHaveLength(1)
+    expect(await listPresets(userId)).toHaveLength(1)
   })
 
   it('rejects a blank name with 400', async () => {
@@ -111,14 +132,14 @@ describe('presets route handler', () => {
   })
 
   it('deletes a preset with 204', async () => {
-    const preset = await upsertPreset({ name: 'Clinica C', clinic, costs })
+    const preset = await upsertPreset(userId, { name: 'Clinica C', clinic, costs })
     const req = new NextRequest(`http://localhost/api/presets?id=${preset.id}`, {
       method: 'DELETE',
     })
 
     const res = await DELETE(req)
     expect(res.status).toBe(204)
-    expect((await listPresets()).some((p) => p.id === preset.id)).toBe(false)
+    expect((await listPresets(userId)).some((p) => p.id === preset.id)).toBe(false)
   })
 
   it('rejects DELETE without id with 400 and an unknown id with 404', async () => {
