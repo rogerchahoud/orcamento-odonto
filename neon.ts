@@ -10,8 +10,11 @@ export default defineConfig({
       return {};
     }
     if (!branch.exists) {
-      // New non-default branches: auto-expire
-      // Run `neon checkout <name>` to create a new branch with these settings
+      // Persistent development branch: no auto-expiration.
+      if (branch.name === "dev") {
+        return {};
+      }
+      // Other new (feature/preview) branches: auto-expire after 7 days.
       return { ttl: "7d" };
     }
     // Existing branch: no changes
